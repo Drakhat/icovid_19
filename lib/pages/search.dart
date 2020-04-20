@@ -1,9 +1,19 @@
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
+
+import '../datasource.dart';
 
 class Search extends SearchDelegate {
   final List countryList;
 
   Search(this.countryList);
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+        primaryColor: primaryBlack,
+        brightness: DynamicTheme.of(context).brightness);
+  }
 
   @override
   List<Widget> buildActions(BuildContext context) {
