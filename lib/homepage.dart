@@ -4,6 +4,7 @@ import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:icovid19/pages/countryPage.dart';
 import 'package:icovid19/pages/indiaPage.dart';
+import 'package:icovid19/panels/indiaPanel.dart';
 import 'package:icovid19/panels/infoPanel.dart';
 import 'package:icovid19/panels/mostaffectedcountries.dart';
 import 'package:icovid19/panels/worldwidepanel.dart';
@@ -26,6 +27,18 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  List indiaData2;
+  String indiaData1;
+  fetchIndiaData() async {
+    http.Response response =
+        await http.get('https://api.covid19india.org/data.json');
+    setState(() {
+      indiaData1 = response.body;
+      var tagsJson = jsonDecode(indiaData1)['statewise'];
+      indiaData2 = tagsJson != null ? List.from(tagsJson) : null;
+    });
+  }
+
   List countryData;
   fetchCountryData() async {
     http.Response response =
@@ -38,6 +51,7 @@ class _HomePageState extends State<HomePage> {
   Future fetchData() async {
     fetchWorldWideData();
     fetchCountryData();
+    fetchIndiaData();
   }
 
   @override
@@ -49,19 +63,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.amberAccent[100],
       appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Theme.of(context).brightness == Brightness.light
-                  ? Icons.lightbulb_outline
-                  : Icons.highlight),
-              onPressed: () {
-                DynamicTheme.of(context).setBrightness(
-                    Theme.of(context).brightness == Brightness.light
-                        ? Brightness.dark
-                        : Brightness.light);
-              })
-        ],
         centerTitle: false,
         title: Text(
           'iCOVID-19',
@@ -77,10 +80,12 @@ class _HomePageState extends State<HomePage> {
               Container(
                 height: 100,
                 alignment: Alignment.center,
-                padding: EdgeInsets.all(5),
                 child: Image(
                   image: AssetImage('images/homepage_banner.png'),
                 ),
+              ),
+              SizedBox(
+                height: 20,
               ),
               Padding(
                 padding:
@@ -89,9 +94,11 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      'WORLDWIDE :',
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      'WORLDWIDE',
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "RobotoCondensed"),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -110,27 +117,8 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          )),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => IndiaPage()));
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: regColor,
-                              borderRadius: BorderRadius.circular(15)),
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            'India',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "RobotoCondensed"),
                           )),
                     ),
                   ],
@@ -145,8 +133,11 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 10.0, vertical: 10.0),
                 child: Text(
-                  'Most Affected Countries :',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  'Most Affected Countries',
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "RobotoCondensed"),
                 ),
               ),
               SizedBox(
@@ -158,23 +149,71 @@ class _HomePageState extends State<HomePage> {
                       countryData: countryData,
                     ),
               SizedBox(
+                height: 25,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'INDIA',
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "RobotoCondensed"),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => IndiaPage()));
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: regColor,
+                              borderRadius: BorderRadius.circular(15)),
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            'Regional ',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "RobotoCondensed"),
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+              indiaData2 == null
+                  ? CircularProgressIndicator()
+                  : IndiaPanel(
+                      indiaData2: indiaData2,
+                    ),
+              SizedBox(
                 height: 20,
+              ),
+              SizedBox(
+                height: 30,
               ),
               InfoPanel(),
               SizedBox(
-                height: 50,
+                height: 15,
               ),
               Center(
                   child: Text(
-                'STAY AWARE!',
+                'STAY AWARE!!',
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
                     fontSize: 20,
-                    fontStyle: FontStyle.italic,
-                    color: Colors.deepPurple),
+                    fontFamily: "RobotoCOndensed",
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic),
               )),
               SizedBox(
-                height: 50,
+                height: 15,
               )
             ],
           ),
