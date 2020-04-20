@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:icovid19/pages/countryPage.dart';
+import 'package:icovid19/pages/indiaPage.dart';
 import 'package:icovid19/panels/infoPanel.dart';
 import 'package:icovid19/panels/mostaffectedcountries.dart';
 import 'package:icovid19/panels/worldwidepanel.dart';
@@ -112,6 +113,26 @@ class _HomePageState extends State<HomePage> {
                                 fontWeight: FontWeight.bold),
                           )),
                     ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => IndiaPage()));
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: regColor,
+                              borderRadius: BorderRadius.circular(15)),
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            'India',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          )),
+                    ),
                   ],
                 ),
               ),
@@ -120,14 +141,6 @@ class _HomePageState extends State<HomePage> {
                   : WorldwidePanel(
                       worldData: worldData,
                     ),
-              PieChart(
-                dataMap: {
-                  'Active': worldData['active'].toDouble(),
-                  'Recovered': worldData['recovered'].toDouble(),
-                  'Deaths': worldData['deaths'].toDouble(),
-                },
-                colorList: [Colors.blue, Colors.green, Colors.brown],
-              ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 10.0, vertical: 10.0),
