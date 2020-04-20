@@ -39,7 +39,7 @@ class _CountryPageState extends State<CountryPage> {
             },
           )
         ],
-        title: Text('Regional based Stats'),
+        title: Text('WORLD'),
         backgroundColor: regColor,
       ),
       backgroundColor: regbgColor,
