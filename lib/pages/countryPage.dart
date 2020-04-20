@@ -50,13 +50,14 @@ class _CountryPageState extends State<CountryPage> {
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Card(
+                  color: Colors.blueGrey[100],
                   child: Container(
-                    height: 100,
+                    height: 150,
                     margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: Row(
                       children: <Widget>[
                         Container(
-                          width: 200,
+                          width: 90,
                           margin: EdgeInsets.symmetric(horizontal: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +66,9 @@ class _CountryPageState extends State<CountryPage> {
                               Text(
                                 countryData[index]['country'],
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    fontFamily: "RobotoCOndensed"),
                               ),
                               Image.network(
                                 countryData[index]['countryInfo']['flag'],
@@ -85,21 +88,24 @@ class _CountryPageState extends State<CountryPage> {
                                     countryData[index]['cases'].toString(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.red),
+                                    color: Colors.red,
+                                    fontFamily: "RobotoCOndensed"),
                               ),
                               Text(
                                 'ACTIVE: ' +
                                     countryData[index]['active'].toString(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.blue),
+                                    color: Colors.blue,
+                                    fontFamily: "RobotoCOndensed"),
                               ),
                               Text(
                                 'RECOVERED: ' +
                                     countryData[index]['recovered'].toString(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.green),
+                                    color: Colors.green,
+                                    fontFamily: "RobotoCOndensed"),
                               ),
                               Text(
                                 'DEATHS: ' +
@@ -109,7 +115,8 @@ class _CountryPageState extends State<CountryPage> {
                                     color: Theme.of(context).brightness ==
                                             Brightness.dark
                                         ? Colors.grey[100]
-                                        : Colors.grey[900]),
+                                        : Colors.grey[900],
+                                    fontFamily: "RobotoCOndensed"),
                               ),
                             ],
                           ),
